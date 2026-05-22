@@ -34,5 +34,10 @@ spring:
 application:
   security:
     jwt:
-      secret-key: ${JWT_SECRET}
-      expiration: ${JWT_EXPIRATION_TIME}
+      secret-key: mustafaz123456789mustafaz123456789mustafaz123456789
+      expiration: 86400000
+  mailing:
+    frontend:
+      activation-url: http://localhost:4200/activate-account?token=%s
+server:
+  port: 8088
