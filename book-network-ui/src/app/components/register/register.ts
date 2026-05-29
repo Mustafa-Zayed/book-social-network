@@ -3,6 +3,7 @@ import { RegistrationRequest } from '../../services/models';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/services';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +20,8 @@ export class Register {
   });
   errorMsg = signal<Array<string>>([]);
 
+  subscriptions: Array<Subscription> = [];
+
   constructor(
     private router: Router,
     private authService: AuthenticationService,
@@ -30,7 +33,7 @@ export class Register {
 
   register() {
     this.errorMsg.set([]);
-    this.authService
+    const subscription = this.authService
       .register({
         body: this.registerRequest(),
       })
@@ -42,5 +45,10 @@ export class Register {
           this.errorMsg.set(err.error.validationErrors);
         },
       });
+    this.subscriptions.push(subscription);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

@@ -4,6 +4,7 @@ import { AuthenticationRequest } from '../../services/models/authentication-requ
 import { AuthenticationService } from '../../services/services/authentication.service';
 import { FormsModule } from '@angular/forms';
 import { TokenService } from '../../services/token/token.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ import { TokenService } from '../../services/token/token.service';
 export class Login {
   authRequest = signal<AuthenticationRequest>({ email: '', password: '' });
   errorMsg = signal<string[]>([]);
+  subscriptions: Array<Subscription> = [];
 
   constructor(
     private router: Router,
@@ -23,7 +25,7 @@ export class Login {
 
   login() {
     this.errorMsg.set([]);
-    this.authService
+    const subscription = this.authService
       .authenticate({
         body: this.authRequest(),
       })
@@ -41,9 +43,14 @@ export class Login {
           }
         },
       });
+    this.subscriptions.push(subscription);
   }
 
   register() {
     this.router.navigate(['register']);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 }
