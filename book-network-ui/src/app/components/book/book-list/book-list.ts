@@ -3,17 +3,18 @@ import { BookResponse, PageResponseBookResponse } from '../../../services/models
 import { BookService } from '../../../services/services';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { BookCard } from '../book-card/book-card';
 
 @Component({
   selector: 'app-book-list',
-  imports: [],
+  imports: [BookCard],
   templateUrl: './book-list.html',
   styleUrl: './book-list.scss',
 })
 export class BookList implements OnInit {
   bookResponse = signal<PageResponseBookResponse>({});
   page = signal(0);
-  size = signal(5);
+  size = signal(4);
   pages = signal<any[]>([]);
   message = signal('');
   level = signal<'success' | 'error'>('success');
@@ -47,11 +48,6 @@ export class BookList implements OnInit {
     this.subscriptions.push(subscription);
   }
 
-  gotToPage(page: number) {
-    this.page.set(page);
-    this.findAllBooks();
-  }
-
   goToFirstPage() {
     this.page.set(0);
     this.findAllBooks();
@@ -59,6 +55,11 @@ export class BookList implements OnInit {
 
   goToPreviousPage() {
     this.page.update((p) => p - 1);
+    this.findAllBooks();
+  }
+
+  gotToPage(page: number) {
+    this.page.set(page);
     this.findAllBooks();
   }
 
@@ -74,30 +75,6 @@ export class BookList implements OnInit {
 
   get isLastPage() {
     return this.page() === (this.bookResponse().totalPages as number) - 1;
-  }
-
-  // borrowBook(book: BookResponse) {
-  //   this.message.set('');
-  //   this.level.set('success');
-  //   this.bookService
-  //     .borrowBook({
-  //       'book-id': book.id as number,
-  //     })
-  //     .subscribe({
-  //       next: () => {
-  //         this.level.set('success');
-  //         this.message.set('Book successfully added to your list');
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //         this.level.set('error');
-  //         this.message.set(err.error.error);
-  //       },
-  //     });
-  // }
-
-  displayBookDetails(book: BookResponse) {
-    this.router.navigate(['books', 'details', book.id]);
   }
 
   ngOnDestroy() {

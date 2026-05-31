@@ -12,15 +12,10 @@
 <hr />
 <div class="d-flex justify-content-start gap-2 flex-wrap">
   @for (book of bookResponse().content; track $index) {
-    <div class="card" style="width: 18rem">
-      <div class="card-body">
-        <h5 class="card-title">{{ book.title }}</h5>
-        <p class="card-text">{{ book.id }}</p>
-        <button (click)="displayBookDetails(book)" class="btn btn-primary">View Details</button>
-      </div>
-    </div>
+    <app-book-card [book]="book" (borrow)="(false)"></app-book-card>
   }
 </div>
+
 <div class="d-flex justify-content-center mt-3">
   <nav aria-label="Page navigation example">
     <ul class="pagination">
