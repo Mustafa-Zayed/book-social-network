@@ -12,4 +12,9 @@ export class Menu {
     localStorage.removeItem('token');
     window.location.href = '/login';
   }
+
+  get loggedInUser() {
+    const token = localStorage.getItem('token');
+    return token ? JSON.parse(atob(token.split('.')[1])).fullName : null;
+  }
 }

@@ -77,6 +77,27 @@ export class BookList implements OnInit {
     return this.page() === (this.bookResponse().totalPages as number) - 1;
   }
 
+  borrowBook(book: BookResponse) {
+    this.message.set('');
+    this.level.set('success');
+    const subscription = this.bookService
+      .borrowBook({
+        'book-id': book.id as number,
+      })
+      .subscribe({
+        next: () => {
+          this.level.set('success');
+          this.message.set('Book successfully added to your list');
+        },
+        error: (err) => {
+          console.log(err);
+          this.level.set('error');
+          this.message.set(err.error.error);
+        },
+      });
+    this.subscriptions.push(subscription);
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
