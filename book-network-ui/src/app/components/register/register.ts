@@ -39,7 +39,7 @@ export class Register {
       })
       .subscribe({
         next: () => {
-          this.router.navigate(['login']);
+          this.router.navigate(['activate-account']);
         },
         error: (err) => {
           this.errorMsg.set(err.error.validationErrors);
