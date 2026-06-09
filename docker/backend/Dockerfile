@@ -9,7 +9,7 @@ RUN mvn clean package -DskipTests
 # Runtime stage
 FROM eclipse-temurin:21-jdk
 ARG PROFILE=dev
-ARG APP_VERSION=1.0.2
+ARG APP_VERSION=1.0.0
 
 WORKDIR /app
 COPY --from=build /build/target/book-network-*.jar /app/
