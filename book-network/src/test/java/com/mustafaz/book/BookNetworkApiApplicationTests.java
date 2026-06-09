@@ -1,13 +1,13 @@
-//package com.mustafaz.book;
-//
-//import org.junit.jupiter.api.Test;
-//import org.springframework.boot.test.context.SpringBootTest;
-//
+package com.mustafaz.book;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
 //@SpringBootTest
-//class BookNetworkApiApplicationTests {
-//
-//    @Test
-//    void contextLoads() {
-//    }
-//
-//}
+class BookNetworkApiApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
