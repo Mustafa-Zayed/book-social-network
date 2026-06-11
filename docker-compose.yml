@@ -15,27 +15,49 @@ services:
       - spring-demo
     restart: unless-stopped
 
-  bsn-api:
-    container_name: bsn-api
-    image: bsn/bsn:1.0.2
-    env_file:
-      - book-network/.env
-    ports:
-      - 8088:8088
-    networks:
-      - spring-demo
-    depends_on:
-      - postgres
+#  bsn-api:
+#    container_name: bsn-api
+#    image: bsn/bsn:1.0.2
+#    env_file:
+#      - book-network/.env
+#    ports:
+#      - 8088:8088
+#    networks:
+#      - spring-demo
+#    depends_on:
+#      - postgres
 
-  bsn-ui:
-    container_name: bsn-ui
-    image: bsn/bsn-ui:1.0.1
+#  bsn-ui:
+#    container_name: bsn-ui
+#    image: bsn/bsn-ui:1.0.1
+#    ports:
+#      - 8080:80
+#    networks:
+#      - spring-demo
+#    depends_on:
+#      - bsn-api
+
+  mail-dev:
+    container_name: mail-dev-bsn
+    image: maildev/maildev
     ports:
-      - 8080:80
+      - 1080:1080
+      - 1025:1025
     networks:
       - spring-demo
-    depends_on:
-      - bsn-api
+
+  keycloak:
+    container_name: keycloak-bsn
+    image: quay.io/keycloak/keycloak:latest
+    ports:
+      - 9090:8080
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    networks:
+      - spring-demo
+    command:
+      - "start-dev"
 
 networks:
   spring-demo:
