@@ -24,9 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-@Service
-@RequiredArgsConstructor
+//@Service
+//@RequiredArgsConstructor
 public class AuthenticationService {
+/*
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -133,4 +134,5 @@ public class AuthenticationService {
 
         return codeBuilder.toString();
     }
+*/
 }
