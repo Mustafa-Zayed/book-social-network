@@ -20,4 +20,8 @@ export class Menu {
       `${this.keycloakService.profile?.firstName} ${this.keycloakService.profile?.lastName}` || null
     );
   }
+
+  async accountManagement() {
+    await this.keycloakService.accountManagement();
+  }
 }
