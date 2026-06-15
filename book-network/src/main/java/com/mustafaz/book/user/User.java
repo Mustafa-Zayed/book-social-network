@@ -31,9 +31,9 @@ import static jakarta.persistence.FetchType.EAGER;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "_user")
-@EntityListeners(AuditingEntityListener.class) // AuditingEntityListener automatically fills createdDate and lastModifiedDate fields
+//@Entity
+//@Table(name = "_user")
+//@EntityListeners(AuditingEntityListener.class) // AuditingEntityListener automatically fills createdDate and lastModifiedDate fields
 public class User implements UserDetails, Principal {
 
     @Id

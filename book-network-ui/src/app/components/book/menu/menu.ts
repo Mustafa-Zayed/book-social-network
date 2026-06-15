@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { KeycloakService } from '../../../services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,13 +9,19 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './menu.scss',
 })
 export class Menu {
-  logout() {
-    localStorage.removeItem('token');
-    window.location.href = '/login';
+  private keycloakService = inject(KeycloakService);
+
+  async logout() {
+    await this.keycloakService.logout();
   }
 
   get loggedInUser() {
-    const token = localStorage.getItem('token');
-    return token ? JSON.parse(atob(token.split('.')[1])).fullName : null;
+    return (
+      `${this.keycloakService.profile?.firstName} ${this.keycloakService.profile?.lastName}` || null
+    );
+  }
+
+  async accountManagement() {
+    await this.keycloakService.accountManagement();
   }
 }

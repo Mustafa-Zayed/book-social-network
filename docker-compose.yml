@@ -8,34 +8,58 @@ services:
       PGDATA: /var/lib/postgresql/data
       POSTGRES_DB: book_social_network
     volumes:
-      - postgres:/data/postgres
+      - postgres:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
       - spring-demo
     restart: unless-stopped
 
-  bsn-api:
-    container_name: bsn-api
-    image: bsn/bsn:1.0.2
-    env_file:
-      - book-network/.env
-    ports:
-      - 8088:8088
-    networks:
-      - spring-demo
-    depends_on:
-      - postgres
+#  bsn-api:
+#    container_name: bsn-api
+#    image: bsn/bsn:1.0.2
+#    env_file:
+#      - book-network/.env
+#    ports:
+#      - 8088:8088
+#    networks:
+#      - spring-demo
+#    depends_on:
+#      - postgres
 
-  bsn-ui:
-    container_name: bsn-ui
-    image: bsn/bsn-ui:1.0.1
+#  bsn-ui:
+#    container_name: bsn-ui
+#    image: bsn/bsn-ui:1.0.1
+#    ports:
+#      - 8080:80
+#    networks:
+#      - spring-demo
+#    depends_on:
+#      - bsn-api
+
+#  mail-dev:
+#    container_name: mail-dev-bsn
+#    image: maildev/maildev
+#    ports:
+#      - 1080:1080
+#      - 1025:1025
+#    networks:
+#      - spring-demo
+
+  keycloak:
+    container_name: keycloak-bsn
+    image: quay.io/keycloak/keycloak:latest
     ports:
-      - 8080:80
+      - 9090:8080
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
     networks:
       - spring-demo
-    depends_on:
-      - bsn-api
+    volumes:
+      - keycloak:/opt/keycloak/data
+    command:
+      - "start-dev"
 
 networks:
   spring-demo:
@@ -43,4 +67,6 @@ networks:
 
 volumes:
   postgres:
+    driver: local
+  keycloak:
     driver: local

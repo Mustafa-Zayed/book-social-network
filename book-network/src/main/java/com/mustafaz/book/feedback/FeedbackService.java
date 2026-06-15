@@ -31,7 +31,6 @@ public class FeedbackService {
         if (book.isArchived() || !book.isShareable()) {
             throw new OperationNotPermittedException("You cannot give a feedback for and archived or not shareable book");
         }
-        // User user = ((User) connectedUser.getPrincipal());
         if (Objects.equals(book.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You cannot give feedback to your own book");
         }
@@ -42,10 +41,9 @@ public class FeedbackService {
     @Transactional
     public PageResponse<FeedbackResponse> findAllFeedbacksByBook(Integer bookId, int page, int size, Authentication connectedUser) {
         Pageable pageable = PageRequest.of(page, size);
-        User user = ((User) connectedUser.getPrincipal());
         Page<Feedback> feedbacks = feedBackRepository.findAllByBookId(bookId, pageable);
         List<FeedbackResponse> feedbackResponses = feedbacks.stream()
-                .map(f -> feedbackMapper.toFeedbackResponse(f, user.getId()))
+                .map(f -> feedbackMapper.toFeedbackResponse(f, connectedUser.getName()))
                 .toList();
         return new PageResponse<>(
                 feedbackResponses,
