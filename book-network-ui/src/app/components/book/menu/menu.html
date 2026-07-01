@@ -55,7 +55,7 @@
         </li>
       </ul>
       <form class="d-flex gap-2 align-items-center" role="search">
-        <div class="dropdown cursor-pointer" (click)="unreadNotificationsCount = 0">
+        <div class="dropdown cursor-pointer" (click)="markNotificationsAsRead()">
           <i
             class="fas fa-bell position-relative h4"
             data-bs-toggle="dropdown"
@@ -70,7 +70,7 @@
             }
           </i>
           <ul class="dropdown-menu">
-            @for (notification of notifications(); track $index) {
+            @for (notification of notifications(); track notification.id) {
               <li>
                 <span class="dropdown-item cursor-pointer border-bottom">
                   <i class="fas fa-bell"></i>&nbsp; {{ notification.bookTitle }} :

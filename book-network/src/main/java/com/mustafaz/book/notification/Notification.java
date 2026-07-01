@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,7 +16,10 @@ import lombok.ToString;
 @Builder
 @ToString
 public class Notification {
+    private Integer id;
     private NotificationStatus status;
     private String message;
     private String bookTitle;
+    private boolean read;
+    private LocalDateTime createdDate;
 }
