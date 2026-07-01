@@ -4,6 +4,7 @@ import { BookService } from '../../../services/services';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BookCard } from '../book-card/book-card';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-book-list',
@@ -23,6 +24,7 @@ export class BookList implements OnInit {
   constructor(
     private bookService: BookService,
     private router: Router,
+    private toastrService: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -86,13 +88,10 @@ export class BookList implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.level.set('success');
-          this.message.set('Book successfully added to your list');
+          this.toastrService.success('Book successfully added to your list', 'Done!');
         },
         error: (err) => {
-          console.log(err);
-          this.level.set('error');
-          this.message.set(err.error.error);
+          this.toastrService.error(err.error.error, 'Oups!!');
         },
       });
     this.subscriptions.push(subscription);

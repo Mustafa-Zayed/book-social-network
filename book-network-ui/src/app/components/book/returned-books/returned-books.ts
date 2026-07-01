@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { BorrowedBookResponse, PageResponseBorrowedBookResponse } from '../../../services/models';
 import { BookService } from '../../../services/services';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-returned-books',
@@ -18,7 +19,10 @@ export class ReturnedBooks {
   level = signal<'success' | 'error'>('success');
   subscriptions: Array<Subscription> = [];
 
-  constructor(private bookService: BookService) {}
+  constructor(
+    private bookService: BookService,
+    private toastrService: ToastrService,
+  ) {}
 
   ngOnInit(): void {
     this.findAllReturnedBooks();
@@ -53,13 +57,11 @@ export class ReturnedBooks {
       })
       .subscribe({
         next: () => {
-          this.level.set('success');
-          this.message.set('Book return approved');
+          this.toastrService.success('Book return approved', 'Done');
           this.findAllReturnedBooks();
         },
         error: (err) => {
-          this.level.set('error');
-          this.message.set(err.error.error);
+          this.toastrService.error('Failed to approve book return', 'Error');
         },
       });
     this.subscriptions.push(subscription);

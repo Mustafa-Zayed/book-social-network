@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="javascript:void(0)">BSN</a>
     <button
@@ -55,6 +55,31 @@
         </li>
       </ul>
       <form class="d-flex gap-2 align-items-center" role="search">
+        <div class="dropdown cursor-pointer" (click)="markNotificationsAsRead()">
+          <i
+            class="fas fa-bell position-relative h4"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            @if (unreadNotificationsCount > 0) {
+              <span
+                class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"
+              >
+                <span class="visually-hidden">New alerts</span>
+              </span>
+            }
+          </i>
+          <ul class="dropdown-menu">
+            @for (notification of notifications(); track notification.id) {
+              <li>
+                <span class="dropdown-item cursor-pointer border-bottom">
+                  <i class="fas fa-bell"></i>&nbsp; {{ notification.bookTitle }} :
+                  {{ notification.message }}
+                </span>
+              </li>
+            }
+          </ul>
+        </div>
         <input class="form-control" type="search" placeholder="Find a book" aria-label="Search" />
         <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
         <span>Welcome</span>

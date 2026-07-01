@@ -9,6 +9,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Rating } from '../rating/rating';
 import { Subscription } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-borrowed-book-list',
@@ -28,6 +29,7 @@ export class BorrowedBookList {
   constructor(
     private bookService: BookService,
     private feedbackService: FeedbackService,
+    private toastrService: ToastrService,
   ) {}
   ngOnInit(): void {
     this.findAllBorrowedBooks();
@@ -71,6 +73,7 @@ export class BorrowedBookList {
           // Save the feedback
           this.giveFeedback();
           form.resetForm();
+          this.toastrService.success('Book has been returned and the owner is notified', 'Success');
           this.selectedBook.set(undefined);
           this.findAllBorrowedBooks();
         },
